@@ -44,6 +44,7 @@ currentPage := 1
 invitedTalents := {}
 failedCount := 0
 failedList := ""
+lastClickY := 0  ; 记录上一次点击的Y坐标，避免重复处理
 
 ; ================== 图像文件名配置 ==================
 ; 这些文件需要在 images/ 目录下存在
@@ -151,7 +152,10 @@ MainLoop() {
 
 ; 处理当前页面的所有达人
 ProcessCurrentPage() {
-    global isRunning, inviteCount, MAX_RETRY, IMAGES_DIR, IMAGE_DETAIL_BTN
+    global isRunning, inviteCount, MAX_RETRY, IMAGES_DIR, IMAGE_DETAIL_BTN, lastClickY
+
+    ; 重置起始搜索位置
+    lastClickY := 0
 
     ; 在当前页面循环查找并点击"详情"按钮
     Loop {
@@ -166,13 +170,16 @@ ProcessCurrentPage() {
             if (retryCount >= MAX_RETRY)
                 break
 
-            ; 查找"详情"按钮（从上到下）
-            if (FindAndClickImage(IMAGES_DIR . "\" . IMAGE_DETAIL_BTN)) {
+            ; 查找"详情"按钮（从上一次点击位置下方开始搜索，避免重复）
+            if (FindAndClickImage(IMAGES_DIR . "\" . IMAGE_DETAIL_BTN, lastClickY)) {
                 found := true
 
                 ; 获取点击位置作为达人ID（简化处理）
                 MouseGetPos, clickedX, clickedY
                 talentId := currentPage . "_" . clickedX . "_" . clickedY
+
+                ; 记录本次点击的Y坐标（加20像素偏移，避免重复点击同一个）
+                lastClickY := clickedY + 20
 
                 ; 检查是否已经邀约过
                 if (!IsAlreadyInvited(talentId)) {
@@ -347,7 +354,8 @@ TryReturnToSquare() {
 }
 
 ; 查找并点击图像
-FindAndClickImage(imagePath) {
+; startY: 可选参数，指定搜索起始Y坐标（用于避免重复点击）
+FindAndClickImage(imagePath, startY = 0) {
     global IMAGE_TOLERANCE, MAX_IMAGE_SEARCH_TIME
 
     if (!FileExist(imagePath)) {
@@ -366,8 +374,8 @@ FindAndClickImage(imagePath) {
             return false
         }
 
-        ; 搜索图像
-        ImageSearch, foundX, foundY, 0, 0, A_ScreenWidth, A_ScreenHeight, *%IMAGE_TOLERANCE% %imagePath%
+        ; 搜索图像（从指定Y坐标开始搜索，避免重复）
+        ImageSearch, foundX, foundY, 0, %startY%, A_ScreenWidth, A_ScreenHeight, *%IMAGE_TOLERANCE% %imagePath%
 
         if (ErrorLevel = 0) {
             ; 找到图像，点击
