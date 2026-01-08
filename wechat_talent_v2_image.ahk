@@ -57,6 +57,11 @@ IMAGE_CONFIRM_SEND_BTN := "confirm_send_button.png"  ; 确认发送邀约按钮
 IMAGE_NEXT_PAGE_BTN := "next_page_button.png"    ; 下一页按钮
 IMAGE_CLOSE_TAB_BTN := "close_tab_button.png"    ; 关闭标签按钮（已弃用，使用Ctrl+W）
 
+; 滚动相关配置
+SCROLL_AMOUNT := 3          ; 每次滚动的轮数（鼠标滚轮）
+SCROLL_WAIT_TIME := 1000    ; 滚动后等待时间
+MAX_SCROLL_COUNT := 50     ; 每页最大滚动次数（防止无限滚动）
+
 ; ================== 热键定义 ==================
 F3::
     if (!isRunning) {
