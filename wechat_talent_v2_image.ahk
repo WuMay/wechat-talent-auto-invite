@@ -184,10 +184,18 @@ ProcessCurrentPage() {
                         if (retryInvite >= MAX_RETRY)
                             break
 
-                        if (InviteTalent(talentId)) {
+                        result := InviteTalent(talentId)
+                        if (result = true) {
                             success := true
                             break
+                        } else if (result = -1) {
+                            ; 跳过该达人（没有邀约按钮），不要重试
+                            ToolTip, 已跳过一个无邀约按钮的达人, 10, 10
+                            Sleep, 500
+                            ToolTip
+                            break
                         } else {
+                            ; 失败，重试
                             retryInvite++
                             Sleep, 1000
                         }
@@ -196,8 +204,8 @@ ProcessCurrentPage() {
                     if (success) {
                         inviteCount++
                         ToolTip, 已邀约: %inviteCount% 个达人, 10, 10
-                    } else {
-                        global failedCount, failedList
+                    } else if (result != -1) {
+                        ; 只有在不是跳过的情况下才计入失败
                         failedCount++
                         failedList := failedList . "第" . currentPage . "页某个达人`n"
 
@@ -235,11 +243,13 @@ InviteTalent(talentId) {
 
     ; 步骤2：查找并点击"邀请带货"按钮
     if (!FindAndClickImage(IMAGES_DIR . "\" . IMAGE_INVITE_BTN)) {
-        ToolTip, 未找到邀请带货按钮, 10, 10
-        Sleep, 1000
+        ToolTip, 未找到邀约按钮，跳过该达人, 10, 10
+        Sleep, 1500
         ToolTip
+        ; 使用Ctrl+W关闭窗口，跳过该达人
         CloseCurrentTab()
-        return false
+        ; 返回-1表示跳过（不是失败，不要重试）
+        return -1
     }
 
     Sleep, WAIT_TIME_PAGE_LOAD
