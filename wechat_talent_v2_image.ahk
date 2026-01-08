@@ -81,14 +81,14 @@ StartScript() {
     }
 
     ; 检查必需的图像文件
-    requiredImages := [IMAGE_DETAIL_BTN, IMAGE_INVITE_BTN, IMAGE_ADD_PRODUCT_BTN,
-                      IMAGE_CONFIRM_BTN, IMAGE_SEND_INVITE_BTN, IMAGE_NEXT_PAGE_BTN, IMAGE_CLOSE_TAB_BTN]
+    requiredImages := IMAGE_DETAIL_BTN . "," . IMAGE_INVITE_BTN . "," . IMAGE_ADD_PRODUCT_BTN . "," . IMAGE_CONFIRM_BTN . "," . IMAGE_SEND_INVITE_BTN . "," . IMAGE_NEXT_PAGE_BTN . "," . IMAGE_CLOSE_TAB_BTN
 
     missingImages := ""
-    For index, imageName in requiredImages {
-        imagePath := IMAGES_DIR . "\" . imageName
+    Loop, Parse, requiredImages, `,
+    {
+        imagePath := IMAGES_DIR . "\" . A_LoopField
         if (!FileExist(imagePath)) {
-            missingImages := missingImages . imageName . "`n"
+            missingImages := missingImages . A_LoopField . "`n"
         }
     }
 
