@@ -52,8 +52,9 @@ IMAGE_INVITE_BTN := "invite_button.png"          ; 邀请带货按钮
 IMAGE_ADD_PRODUCT_BTN := "add_product_button.png"  ; 添加商品按钮
 IMAGE_CONFIRM_BTN := "confirm_button.png"        ; 确认按钮
 IMAGE_SEND_INVITE_BTN := "send_invite_button.png"  ; 发送邀约按钮
+IMAGE_CONFIRM_SEND_BTN := "confirm_send_button.png"  ; 确认发送邀约按钮
 IMAGE_NEXT_PAGE_BTN := "next_page_button.png"    ; 下一页按钮
-IMAGE_CLOSE_TAB_BTN := "close_tab_button.png"    ; 关闭标签按钮
+IMAGE_CLOSE_TAB_BTN := "close_tab_button.png"    ; 关闭标签按钮（已弃用，使用Ctrl+W）
 
 ; ================== 热键定义 ==================
 F3::
@@ -81,7 +82,7 @@ StartScript() {
     }
 
     ; 检查必需的图像文件
-    requiredImages := IMAGE_DETAIL_BTN . "," . IMAGE_INVITE_BTN . "," . IMAGE_ADD_PRODUCT_BTN . "," . IMAGE_CONFIRM_BTN . "," . IMAGE_SEND_INVITE_BTN . "," . IMAGE_NEXT_PAGE_BTN . "," . IMAGE_CLOSE_TAB_BTN
+    requiredImages := IMAGE_DETAIL_BTN . "," . IMAGE_INVITE_BTN . "," . IMAGE_ADD_PRODUCT_BTN . "," . IMAGE_CONFIRM_BTN . "," . IMAGE_SEND_INVITE_BTN . "," . IMAGE_CONFIRM_SEND_BTN . "," . IMAGE_NEXT_PAGE_BTN . "," . IMAGE_CLOSE_TAB_BTN
 
     missingImages := ""
     Loop, Parse, requiredImages, `,
@@ -274,9 +275,20 @@ InviteTalent(talentId) {
         return false
     }
 
+    Sleep, WAIT_TIME_CLICK
+
+    ; 步骤6：查找并点击"确认发送邀约"按钮
+    if (!FindAndClickImage(IMAGES_DIR . "\" . IMAGE_CONFIRM_SEND_BTN)) {
+        ToolTip, 未找到确认发送邀约按钮, 10, 10
+        Sleep, 1000
+        ToolTip
+        CloseCurrentTab()
+        return false
+    }
+
     Sleep, WAIT_TIME_INVITE
 
-    ; 步骤6：关闭当前标签页
+    ; 步骤7：关闭当前标签页（使用 Ctrl+W）
     if (!CloseCurrentTab()) {
         return false
     }
@@ -306,15 +318,10 @@ GoToNextPage() {
 
 ; 关闭当前标签页
 CloseCurrentTab() {
-    global IMAGES_DIR, WAIT_TIME_CLICK
+    global WAIT_TIME_CLICK
 
-    ; 方法1：尝试查找关闭按钮
-    if (FindAndClickImage(IMAGES_DIR . "\" . IMAGE_CLOSE_TAB_BTN)) {
-        Sleep, WAIT_TIME_CLICK
-        return true
-    }
-
-    ; 方法2：使用快捷键 Ctrl+W
+    ; 使用快捷键 Ctrl+W 关闭当前标签页
+    ; 注意：不使用图像识别方式，因为关闭按钮位置可能变化
     Send, ^w
     Sleep, WAIT_TIME_CLICK
     return true

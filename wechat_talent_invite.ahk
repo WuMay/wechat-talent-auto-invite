@@ -58,6 +58,8 @@ CONFIRM_BUTTON_X := 700      ; 确认按钮X坐标
 CONFIRM_BUTTON_Y := 500      ; 确认按钮Y坐标
 SEND_INVITE_BUTTON_X := 800  ; 发送邀约按钮X坐标
 SEND_INVITE_BUTTON_Y := 600  ; 发送邀约按钮Y坐标
+CONFIRM_SEND_BUTTON_X := 900  ; 确认发送邀约按钮X坐标
+CONFIRM_SEND_BUTTON_Y := 700  ; 确认发送邀约按钮Y坐标
 
 ; 翻页相关坐标
 NEXT_PAGE_BUTTON_X := 1300   ; 下一页按钮X坐标
@@ -243,9 +245,18 @@ InviteTalent(itemY, detailButtonY, talentId) {
         return false
     }
 
+    Sleep, WAIT_TIME_CLICK
+
+    ; 步骤6：点击确认发送邀约
+    global CONFIRM_SEND_BUTTON_X, CONFIRM_SEND_BUTTON_Y
+    if (!ClickAt(CONFIRM_SEND_BUTTON_X, CONFIRM_SEND_BUTTON_Y, "确认发送邀约")) {
+        CloseCurrentTab()
+        return false
+    }
+
     Sleep, WAIT_TIME_INVITE
 
-    ; 步骤6：关闭当前页面
+    ; 步骤7：关闭当前页面（使用 Ctrl+W）
     if (!CloseCurrentTab()) {
         return false
     }
@@ -272,8 +283,11 @@ GoToNextPage() {
 
 ; 关闭当前标签页
 CloseCurrentTab() {
-    global CLOSE_BUTTON_X, CLOSE_BUTTON_Y
-    return ClickAt(CLOSE_BUTTON_X, CLOSE_BUTTON_Y, "关闭页面")
+    ; 使用快捷键 Ctrl+W 关闭当前标签页
+    ; 注意：不使用坐标点击方式，因为关闭按钮位置可能变化
+    Send, ^w
+    Sleep, 1000
+    return true
 }
 
 ; 尝试返回达人广场
