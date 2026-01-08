@@ -350,7 +350,7 @@ FindAndClickImage(imagePath) {
         }
 
         ; 搜索图像
-        ImageSearch, foundX, foundY, 0, 0, A_ScreenWidth, A_ScreenHeight, %imagePath%
+        ImageSearch, foundX, foundY, 0, 0, A_ScreenWidth, A_ScreenHeight, *%IMAGE_TOLERANCE% %imagePath%
 
         if (ErrorLevel = 0) {
             ; 找到图像，点击
