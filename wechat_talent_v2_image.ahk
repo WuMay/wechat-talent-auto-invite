@@ -79,11 +79,11 @@ return
 
 ; 启动脚本
 StartScript() {
-    global isRunning
+    global isRunning, IMAGES_DIR
 
     ; 检查图像目录
     if (!FileExist(IMAGES_DIR)) {
-        MsgBox, 16, 错误, 未找到 images/ 目录！`n`n请按照以下步骤操作：`n1. 在脚本目录创建 images 文件夹`n2. 截图各个按钮并保存到 images/ 目录`n3. 文件名必须与脚本中定义的相同
+        MsgBox, 16, 错误 - 未找到 images 目录, 未找到 images/ 目录！`n`n脚本查找的路径：`n%IMAGES_DIR%`n`n请按照以下步骤操作：`n1. 在脚本所在目录创建 images 文件夹`n2. 截图各个按钮并保存到 images/ 目录`n3. 文件名必须与脚本中定义的相同
         return
     }
 
@@ -100,7 +100,7 @@ StartScript() {
     }
 
     if (missingImages != "") {
-        MsgBox, 16, 错误, 缺少以下图像文件：`n`n%missingImages%`n请确保所有按钮截图都已保存到 images/ 目录
+        MsgBox, 16, 错误 - 缺少图像文件, 缺少以下图像文件：`n`n%missingImages%`n`n脚本查找的目录：`n%IMAGES_DIR%`n`n请确保所有按钮截图都已保存到 images/ 目录
         return
     }
 
