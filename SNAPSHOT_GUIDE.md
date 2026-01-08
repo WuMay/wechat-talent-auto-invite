@@ -19,12 +19,11 @@ your-folder/
 │   ├── confirm_button.png       (确认按钮截图)
 │   ├── send_invite_button.png   (发送邀约按钮截图)
 │   ├── confirm_send_button.png  (确认发送邀约按钮截图) ⭐ 新增必需
-│   ├── next_page_button.png     (下一页按钮截图)
-│   └── close_tab_button.png     (关闭标签按钮截图，可选)
+│   └── next_page_button.png     (下一页按钮截图)
 └── invite_record.txt            (自动生成，无需创建)
 ```
 
-**注意**：实际需要截图7个必需按钮（不包括close_tab_button.png）
+**注意**：实际需要截图7个必需按钮
 
 ## 截图步骤
 
@@ -97,15 +96,6 @@ your-folder/
   - 包含完整的按钮区域
   - 确保文字清晰
   - 建议大小：80x30 像素左右
-
-#### 8. close_tab_button.png - 关闭标签按钮（可选）
-- 位置：Chrome浏览器标签页右上角的关闭按钮（X）
-- 截图要点：
-  - 只截取"X"图标
-  - 不要包含整个标签页
-  - 确保图标清晰
-  - 建议大小：20x20 像素左右
-- **注意**：脚本实际使用 **Ctrl+W** 关闭标签页，不需要此按钮截图
 
 ## 截图示例
 

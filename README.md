@@ -27,7 +27,7 @@
 ### 2. 图像识别版 (wechat_talent_v2_image.ahk) ⭐ 推荐
 - 使用按钮截图进行图像识别
 - 更稳定，不依赖固定坐标
-- 需要先截取8个按钮的图片（7个必需）
+- 需要先截取7个按钮的图片（全部必需）
 - 适应性强，支持不同分辨率
 - 使用 Ctrl+W 关闭窗口（更可靠）
 
@@ -229,14 +229,14 @@ A: 不建议，确保只有一个Chrome窗口在达人广场页面
 ├── wechat_talent_v2_image.ahk     # 图像识别版脚本（推荐）
 ├── README.md                      # 本文件
 ├── SNAPSHOT_GUIDE.md              # 图像截图指南
-├── images/                        # 按钮截图目录（图像版需要）
-│   ├── detail_button.png
-│   ├── invite_button.png
-│   ├── add_product_button.png
-│   ├── confirm_button.png
-│   ├── send_invite_button.png
-│   ├── next_page_button.png
-│   └── close_tab_button.png
+├── images/                        # 按钮截图目录（图像版需要，共7个）
+│   ├── detail_button.png          # 详情按钮
+│   ├── invite_button.png          # 邀请带货按钮
+│   ├── add_product_button.png      # 添加商品按钮
+│   ├── confirm_button.png         # 确认按钮
+│   ├── send_invite_button.png     # 发送邀约按钮
+│   ├── confirm_send_button.png    # 确认发送邀约按钮
+│   └── next_page_button.png       # 下一页按钮
 └── invite_record.txt              # 邀约记录（自动生成）
 ```
 

@@ -82,8 +82,8 @@ StartScript() {
         return
     }
 
-    ; 检查必需的图像文件
-    requiredImages := IMAGE_DETAIL_BTN . "," . IMAGE_INVITE_BTN . "," . IMAGE_ADD_PRODUCT_BTN . "," . IMAGE_CONFIRM_BTN . "," . IMAGE_SEND_INVITE_BTN . "," . IMAGE_CONFIRM_SEND_BTN . "," . IMAGE_NEXT_PAGE_BTN . "," . IMAGE_CLOSE_TAB_BTN
+    ; 检查必需的图像文件（共7个按钮）
+    requiredImages := IMAGE_DETAIL_BTN . "," . IMAGE_INVITE_BTN . "," . IMAGE_ADD_PRODUCT_BTN . "," . IMAGE_CONFIRM_BTN . "," . IMAGE_SEND_INVITE_BTN . "," . IMAGE_CONFIRM_SEND_BTN . "," . IMAGE_NEXT_PAGE_BTN
 
     missingImages := ""
     Loop, Parse, requiredImages, `,
